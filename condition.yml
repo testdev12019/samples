@@ -1,11 +1,10 @@
 ---
 - name: test condition when
-  hosts: ansible-nodes
+  hosts: all
   gather_facts: true
   tasks:
-- command: echo 'Ubuntu'
-when: (ansible_facts['distribution'] == "Debian"
+    - command: echo 'Ubuntu'
+      when: (ansible_facts['distribution'] == "Debian"
 
-
-- command: echo CentOS
-when: (ansible_facts['distribution'] == "CentOS"
+    - command: echo CentOS
+      when: (ansible_facts['distribution'] == "CentOS"
