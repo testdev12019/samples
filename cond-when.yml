@@ -1,0 +1,13 @@
+---
+- name : when condition demo
+  hosts : node-2
+  tasks :
+          - name : check Ubuntu
+            when : ansible_facts['os_family'] == "Debian"
+            debug :
+                    msg : "OS is Ubuntu"
+
+          - name : check centOS
+            when : ansible_facts['os_family'] == "CentOS"
+            debug :
+                    msg : "OS is CentOS"

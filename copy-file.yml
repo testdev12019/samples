@@ -1,0 +1,12 @@
+---
+- name : Copy file from controller to node 
+  hosts : node-1
+  become : true
+  vars :
+          src_file_path : /home/shyam/Downloads/sample.txt
+          dest_file_path : /home/ubuntu/
+  tasks :
+          - name : Copy file to a remote server
+            copy :
+                    src : "{{ src_file_path }}"
+                    dest : "{{ dest_file_path }}"

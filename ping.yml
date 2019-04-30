@@ -1,0 +1,5 @@
+---
+- name : "Ping Nodes"
+  hosts : all
+  tasks :
+          - action: ping

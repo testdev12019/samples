@@ -1,0 +1,53 @@
+---
+- name : install and run apache tomcat
+  hosts: node-2
+  vars :
+          base_dir_path : /home/ubuntu
+  tasks:
+          - name: create a folder name downloads
+            file:
+                    path: "{{ base_dir_path }}/downloads"
+                    state: directory
+                    mode: 0775
+                    owner: ubuntu
+                    group: ubuntu
+                    recurse : yes
+         
+          - name : Download Tomcat
+            get_url :
+                    url : http://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.39/bin/apache-tomcat-8.5.39.tar.gz
+                    dest : "{{ base_dir_path }}/downloads"
+         
+          - name : Extract the file downloaded tomcat file
+            unarchive :
+                    src : "{{ base_dir_path }}/downloads/apache-tomcat-8.5.39.tar.gz"
+                    dest : "{{ base_dir_path }}/downloads"
+                    remote_src : yes
+         
+          - name : Rename the Tomcat directory 
+            command : mv "{{ base_dir_path }}/downloads/apache-tomcat-8.5.39" "{{ base_dir_path }}/tomcat"
+          
+          - name : Change Ownership and group of the Tomcat directory
+            file :
+                    path : "{{ base_dir_path }}/tomcat"
+                    owner : ubuntu
+                    group : ubuntu
+                    mode : 0775
+                    state : directory
+                    recurse : yes
+         
+          - name : Start Tomcat
+            command : nohup "{{ base_dir_path }}/tomcat/bin/startup.sh"
+            become : true
+            become_user : ubuntu
+          
+          - name : download sample war file
+            get_url :
+                    url : https://tomcat.apache.org/tomcat-8.5-doc/appdev/sample/sample.war
+                    dest : "{{ base_dir_path }}/downloads"
+          
+          - name : "deploy war file"
+            copy :
+                    src : "{{ base_dir_path }}/downloads/sample.war"
+                    dest : "{{ base_dir_path }}/tomcat/webapps/"
+                    remote_src : yes

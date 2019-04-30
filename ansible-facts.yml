@@ -1,0 +1,6 @@
+---
+- name : gather ansible facts
+  hosts : node-2
+  tasks :
+          - debug :
+                  msg : "{{ ansible_facts }}"

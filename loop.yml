@@ -1,0 +1,12 @@
+---
+- name : "register loop"
+  hosts : node-2
+  tasks :
+          - shell : "echo {{ item }}"
+            loop :
+                    - "one"
+                    - "two"
+                    - "three"
+                    - "four"
+                    - "five"  
+            register : echo_var

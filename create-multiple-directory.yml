@@ -1,0 +1,20 @@
+---
+- name : Create Directory
+  hosts : node-2
+  vars :
+          base_dir_path : /home/ubuntu
+  become : true
+  become_user : ubuntu
+  tasks :
+          - name : Create directory
+            file :
+                    path : "{{ item }}"
+                    state : directory
+                    mode : 0775
+                    owner : ubuntu
+                    group : ubuntu
+                    recurse : yes
+            with_items : 
+               - "{{ base_dir_path }}/dir1"
+               - "{{ base_dir_path }}/dir2"
+               - "{{ base_dir_path }}/dir3"

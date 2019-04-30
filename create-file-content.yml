@@ -1,0 +1,10 @@
+---
+- name : "Create file with content"
+  hosts : node-1
+  become : true
+  tasks :
+          - name : "Create Content"
+            copy :
+                    content : "This is a sample text file \n"
+                    dest : "/home/ubuntu/sample.txt"
+

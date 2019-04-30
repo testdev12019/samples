@@ -1,0 +1,23 @@
+---
+- name : jinja2 lookup
+  hosts : node-1
+  vars :
+          file_contents : "{{ lookup('file', '/home/shyam/Downloads/sample.txt') }}"
+  tasks :
+          - name : handle error
+            block :
+                    - name : show node-1 data-time
+                      debug :
+                              msg : "{{ lookup('pipe', 'date') }}"
+
+                    - name : get home folder path
+                      debug :
+                              msg : "{{ lookup('env', 'HOME') }}"
+                    
+                    - name : get file content
+                      debug :
+                              msg : "the value of foo.txt is {{ file_contents }}"
+
+            rescue :
+                    - debug :
+                              msg : "Error Caught"

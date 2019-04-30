@@ -1,0 +1,6 @@
+---
+ - name: "ping host servers"
+   hosts: ansible-hosts
+   tasks: 
+           - name: "ping server nodes"
+             action: ping

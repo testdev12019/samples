@@ -1,0 +1,16 @@
+---
+- name: install mysql
+  hosts: ansible-nodes
+  become: true
+  become_user: root
+  gather_facts: true  
+  tasks:
+          - name: "Install Mysql"
+            apt: pkg=mysql-server state=latest
+            sudo: yes
+          - name: "Set MySQL root password before installing"
+            debconf: name='mysql-server' question='mysql-server/root_password' value='mysql' vtype='password'
+            sudo: yes
+          - name: "Confirm MySQL root password before installing"
+            debconf: name='mysql-server' question='mysql-server/root_password_again' value='mysql' vtype='password'
+            sudo: yes

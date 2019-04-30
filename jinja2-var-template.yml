@@ -1,0 +1,12 @@
+---
+- name : templating with jinja2
+  hosts : node-2
+  tasks :
+          - debug :
+                  msg : "{{ ansible_facts['architecture'] }}"
+
+          - debug :
+                  msg : "{{ ansible_facts['date_time']['date']}}"
+
+          - debug :
+                  msg : "{{ ansible_facts['processor'] }}"

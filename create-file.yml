@@ -1,0 +1,9 @@
+---
+- name : "Create file with content"
+  hosts : node-1
+  become : true
+  tasks :
+          - name : "Create a file" 
+            file :
+                    path : "/home/ubuntu/sample.txt"
+                    state : touch

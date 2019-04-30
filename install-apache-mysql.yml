@@ -1,0 +1,48 @@
+---
+- name: install apache tomcat 8 and mysql
+  hosts: ansible-nodes
+  become: true
+  become_user: root
+  gather_facts: true
+  tasks:
+          - name: "create a folder name downloads"
+            file:
+                    path: /home/ubuntu/downloads
+                    state: directory
+                    mode: 0755
+                    owner: ubuntu
+                    group: ubuntu
+          - name: "download apache tomcat 8 from official website"
+            get_url: url=http://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.39/bin/apache-tomcat-8.5.39.tar.gz dest=/home/ubuntu/downloads
+          - name: "create a folder for apache tomcat installation"
+            file:
+                    path: /home/ubuntu/softz/server/apache-tomcat/
+                    state: directory
+                    mode: 0755
+                    owner: ubuntu
+                    group: ubuntu
+          - name: "extract apache tomcat archive"
+            unarchive:
+                    src: /home/ubuntu/downloads/apache-tomcat-8.5.39.tar.gz
+                    dest: /home/ubuntu/softz/server/apache-tomcat
+                    remote_src: yes
+                    mode: 0755
+                    owner: ubuntu
+                    group: ubuntu
+          - name: "start apache tomcat"
+            command: 'sudo sh /home/ubuntu/softz/server/apache-tomcat/apache-tomcat-8.5.39/bin/startup.sh'
+            sudo: yes
+          - name: "download sample war file"
+            get_url: url=https://tomcat.apache.org/tomcat-8.5-doc/appdev/sample/sample.war dest=/home/ubuntu/downloads
+          - name: "deploy war file"
+            copy: src=/home/ubuntu/downloads/sample.war dest=/home/ubuntu/softz/server/apache-tomcat/apache-tomcat-8.5.39/webapps/ remote_src=yes
+          - name: "Install Mysql"
+            apt: pkg=mysql-server state=latest
+            sudo: yes
+          - name: "Set MySQL root password before installing"
+            debconf: name='mysql-server' question='mysql-server/root_password' value='mysql' vtype='password'
+            sudo: yes
+          - name: "Confirm MySQL root password before installing"
+            debconf: name='mysql-server' question='mysql-server/root_password_again' value='mysql' vtype='password'
+            sudo: yes
+
