@@ -1,8 +1,8 @@
 ---
 - name : Create Directory
-  hosts: node-2
+  hosts: all
   vars :
-          dir_path : /home/ubuntu/sample-dir/
+          dir_path : /home/shyam/sample-dir/
   become: true
   tasks:
           - name: Create directory
@@ -10,6 +10,6 @@
                     path : "{{ dir_path  }}"
                     state : directory
                     mode : 0775
-                    owner : ubuntu
-                    group : ubuntu
+                    owner : shyam
+                    group : shyam
                     recurse : yes
